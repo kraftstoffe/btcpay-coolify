@@ -1,0 +1,16 @@
+# Reference fragment for Coolify deployment.
+# Applied by scripts/patch-coolify.ps1 after compose generation.
+#
+# Changes:
+# - Remove host port bindings on btcpayserver (Coolify Traefik handles 80/443)
+# - Add SERVICE_FQDN_BTCPAYSERVER_49392 for automatic domain routing
+# - Set BTCPAY_HOST and BTCPAY_PROTOCOL for reverse-proxy-aware URLs
+
+services:
+  btcpayserver:
+    expose:
+      - "49392"
+    environment:
+      SERVICE_FQDN_BTCPAYSERVER_49392: ""
+      BTCPAY_HOST: ${SERVICE_FQDN_BTCPAYSERVER:-${BTCPAY_HOST}}
+      BTCPAY_PROTOCOL: ${BTCPAY_PROTOCOL:-http}

@@ -1,0 +1,109 @@
+# BTCPay Server - Coolify-ready Docker Compose
+# Generated from btcpayserver/btcpayserver-docker (mainnet, btc, no reverse proxy, pruned node)
+# Regenerate: ./scripts/generate-compose.sh  or  .\scripts\generate-compose.ps1
+#
+# Coolify: assign domain to btcpayserver service on port 49392
+# Persistent volumes: bitcoin_datadir, postgres_datadir, btcpay_datadir, nbxplorer_datadir
+
+services:
+  postgres:
+    restart: unless-stopped
+    container_name: generated_postgres_1
+    shm_size: 256mb
+    image: btcpayserver/postgres:18.1-1
+    command:
+      - "-c"
+      - "random_page_cost=1.0"
+      - "-c"
+      - "shared_preload_libraries=pg_stat_statements"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - postgres_datadir:/var/lib/postgresql
+
+  bitcoind:
+    restart: unless-stopped
+    container_name: btcpayserver_bitcoind
+    image: btcpayserver/bitcoin:29.2
+    environment:
+      BITCOIN_NETWORK: ${NBITCOIN_NETWORK:-mainnet}
+      CREATE_WALLET: "false"
+      BITCOIN_WALLETDIR: /walletdata
+      BITCOIN_EXTRA_ARGS: |
+        rpcport=43782
+        rpcbind=0.0.0.0:43782
+        rpcallowip=0.0.0.0/0
+        port=39388
+        whitelist=0.0.0.0/0
+        maxmempool=500
+        prune=50000
+        mempoolfullrbf=1
+    expose:
+      - "43782"
+      - "39388"
+    volumes:
+      - bitcoin_datadir:/data
+      - bitcoin_wallet_datadir:/walletdata
+
+  nbxplorer:
+    restart: unless-stopped
+    container_name: generated_nbxplorer_1
+    image: nicolasdorier/nbxplorer:2.6.7
+    expose:
+      - "32838"
+    environment:
+      NBXPLORER_NETWORK: ${NBITCOIN_NETWORK:-mainnet}
+      NBXPLORER_BIND: 0.0.0.0:32838
+      NBXPLORER_TRIMEVENTS: 10000
+      NBXPLORER_SIGNALFILESDIR: /datadir
+      NBXPLORER_POSTGRES: User ID=postgres;Host=postgres;Port=5432;Application Name=nbxplorer;MaxPoolSize=20;Database=nbxplorer${NBITCOIN_NETWORK:-mainnet}
+      NBXPLORER_CHAINS: btc
+      NBXPLORER_BTCRPCURL: http://bitcoind:43782/
+      NBXPLORER_BTCNODEENDPOINT: bitcoind:39388
+    depends_on:
+      - postgres
+    volumes:
+      - nbxplorer_datadir:/datadir
+      - bitcoin_datadir:/root/.bitcoin
+
+  btcpayserver:
+    restart: unless-stopped
+    container_name: generated_btcpayserver_1
+    image: ${BTCPAY_IMAGE:-btcpayserver/btcpayserver:2.3.9}
+    expose:
+      - "49392"
+    environment:
+      SERVICE_FQDN_BTCPAYSERVER_49392: ""
+      BTCPAY_HOST: ${SERVICE_FQDN_BTCPAYSERVER:-${BTCPAY_HOST}}
+      BTCPAY_PROTOCOL: ${BTCPAY_PROTOCOL:-http}
+      BTCPAY_POSTGRES: User ID=postgres;Host=postgres;Port=5432;Application Name=btcpayserver;Database=btcpayserver${NBITCOIN_NETWORK:-mainnet}
+      BTCPAY_NETWORK: ${NBITCOIN_NETWORK:-mainnet}
+      BTCPAY_BIND: 0.0.0.0:49392
+      BTCPAY_ROOTPATH: ${BTCPAY_ROOTPATH:-/}
+      BTCPAY_SSHCONNECTION: root@host.docker.internal
+      BTCPAY_SSHTRUSTEDFINGERPRINTS: ${BTCPAY_SSHTRUSTEDFINGERPRINTS:-}
+      BTCPAY_SSHKEYFILE: ${BTCPAY_SSHKEYFILE:-}
+      BTCPAY_SSHAUTHORIZEDKEYS: ${BTCPAY_SSHAUTHORIZEDKEYS:-}
+      BTCPAY_DEBUGLOG: btcpay.log
+      BTCPAY_UPDATEURL: https://api.github.com/repos/btcpayserver/btcpayserver/releases/latest
+      BTCPAY_DOCKERDEPLOYMENT: "true"
+      BTCPAY_NODEFAULTCHAIN: "true"
+      BTCPAY_CHAINS: btc
+      BTCPAY_BTCEXPLORERURL: http://nbxplorer:32838/
+      BTCPAY_EXPLORERPOSTGRES: User ID=postgres;Host=postgres;Port=5432;Application Name=btcpayserver;MaxPoolSize=80;Database=nbxplorer${NBITCOIN_NETWORK:-mainnet}
+    depends_on:
+      - postgres
+      - nbxplorer
+      - bitcoind
+    volumes:
+      - btcpay_datadir:/datadir
+      - btcpay_pluginsdir:/root/.btcpayserver/Plugins
+      - nbxplorer_datadir:/root/.nbxplorer
+
+volumes:
+  postgres_datadir:
+  bitcoin_datadir:
+  bitcoin_wallet_datadir:
+  nbxplorer_datadir:
+  btcpay_datadir:
+  btcpay_pluginsdir:
