@@ -69,6 +69,9 @@ services:
   btcpayserver:
     restart: unless-stopped
     container_name: generated_btcpayserver_1
+    build:
+      context: .
+      dockerfile: Dockerfile.btcpay
     image: ${BTCPAY_IMAGE:-btcpayserver/btcpayserver:2.3.9}
     expose:
       - "49392"
@@ -96,8 +99,6 @@ services:
       - btcpay_datadir:/datadir
       - btcpay_pluginsdir:/root/.btcpayserver/Plugins
       - nbxplorer_datadir:/root/.nbxplorer
-      - ./entrypoint-plugin.sh:/entrypoint-plugin.sh:ro
-    command: ["sh", "/entrypoint-plugin.sh"]
     depends_on:
       - postgres
       - nbxplorer

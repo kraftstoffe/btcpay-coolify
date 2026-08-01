@@ -1,0 +1,8 @@
+FROM btcpayserver/btcpayserver:2.3.9
+
+RUN apt-get update && apt-get install -y wget unzip && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /root/.btcpayserver/Plugins/BTCPayServer.Plugins.MakePay && \
+    wget -q -O /tmp/p.zip https://plugin-builder.btcpayserver.org/api/v1/plugins/makepay-payments/versions/1.7.5.0/download && \
+    unzip -o /tmp/p.zip -d /root/.btcpayserver/Plugins/BTCPayServer.Plugins.MakePay && \
+    rm /tmp/p.zip
