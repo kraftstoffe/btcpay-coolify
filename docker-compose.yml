@@ -91,6 +91,7 @@ services:
       BTCPAY_CHAINS: btc
       BTCPAY_BTCEXPLORERURL: http://nbxplorer:32838/
       BTCPAY_EXPLORERPOSTGRES: User ID=postgres;Host=postgres;Port=5432;Application Name=btcpayserver;MaxPoolSize=80;Database=nbxplorer${NBITCOIN_NETWORK:-mainnet}
+      BTCPAY_ENABLE_PAP: "true"
     depends_on:
       - postgres
       - nbxplorer
