@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "BTCPayServer.Plugins.MakePay/1.7.5": {
+        "runtime": {
+          "BTCPayServer.Plugins.MakePay.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "BTCPayServer.Plugins.MakePay/1.7.5": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
