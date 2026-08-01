@@ -92,23 +92,16 @@ services:
       BTCPAY_BTCEXPLORERURL: http://nbxplorer:32838/
       BTCPAY_EXPLORERPOSTGRES: User ID=postgres;Host=postgres;Port=5432;Application Name=btcpayserver;MaxPoolSize=80;Database=nbxplorer${NBITCOIN_NETWORK:-mainnet}
       BTCPAY_ENABLE_PAP: "true"
-    command: >
-      sh -c "
-        mkdir -p /root/.btcpayserver/Plugins/BTCPayServer.Plugins.MakePay &&
-        cd /root/.btcpayserver/Plugins/BTCPayServer.Plugins.MakePay &&
-        wget -q -O /tmp/p.zip https://plugin-builder.btcpayserver.org/api/v1/plugins/makepay-payments/versions/1.7.5.0/download &&
-        unzip -o /tmp/p.zip -d /root/.btcpayserver/Plugins/BTCPayServer.Plugins.MakePay &&
-        rm /tmp/p.zip &&
-        exec dotnet BTCPayServer.dll
-      "
-    depends_on:
-      - postgres
-      - nbxplorer
-      - bitcoind
     volumes:
       - btcpay_datadir:/datadir
       - btcpay_pluginsdir:/root/.btcpayserver/Plugins
       - nbxplorer_datadir:/root/.nbxplorer
+      - ./entrypoint-plugin.sh:/entrypoint-plugin.sh:ro
+    command: ["sh", "/entrypoint-plugin.sh"]
+    depends_on:
+      - postgres
+      - nbxplorer
+      - bitcoind
 
 volumes:
   postgres_datadir:
