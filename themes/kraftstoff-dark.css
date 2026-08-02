@@ -1,0 +1,64 @@
+/* KRAFTSTOFF THEME for BTCPay Server
+   Based on default-dark.css with kraftstoff brand colors
+   Primary: #a855f7 (kraftstoff purple)
+   Background: #050508 (kraftstoff dark)
+*/
+:root {
+  --btcpay-neutral-50: #050508;
+  --btcpay-neutral-100: var(--btcpay-neutral-dark-900);
+  --btcpay-neutral-200: var(--btcpay-neutral-dark-800);
+  --btcpay-neutral-300: var(--btcpay-neutral-dark-700);
+  --btcpay-neutral-400: var(--btcpay-neutral-dark-600);
+  --btcpay-neutral-500: var(--btcpay-neutral-dark-500);
+  --btcpay-neutral-600: var(--btcpay-neutral-dark-400);
+  --btcpay-neutral-700: var(--btcpay-neutral-dark-300);
+  --btcpay-neutral-800: var(--btcpay-neutral-dark-200);
+  --btcpay-neutral-900: var(--btcpay-neutral-dark-100);
+  --btcpay-bg-dark: var(--btcpay-neutral-50);
+  --btcpay-bg-tile: var(--btcpay-bg-dark);
+  --btcpay-body-bg-light: var(--btcpay-neutral-50);
+  --btcpay-body-bg-hover: #0a0a0e;
+  --btcpay-body-bg-rgb: 5, 5, 8;
+  --btcpay-body-text: var(--btcpay-white);
+  --btcpay-body-text-muted: var(--btcpay-neutral-600);
+  --btcpay-body-text-warning-rgb: 255, 192, 67;
+  --btcpay-body-text-rgb: 255, 255, 255;
+  --btcpay-body-link-accent: var(--btcpay-primary-accent);
+  --btcpay-body-link-accent-rgb: var(--btcpay-primary-accent-rgb);
+  --btcpay-form-bg: var(--btcpay-bg-dark);
+  --btcpay-form-text: var(--btcpay-neutral-800);
+  --btcpay-form-text-label: var(--btcpay-neutral-900);
+  --btcpay-form-border: var(--btcpay-neutral-200);
+  --btcpay-header-bg: var(--btcpay-bg-dark);
+  --btcpay-nav-link: var(--btcpay-neutral-500);
+  --btcpay-nav-link-active: var(--btcpay-white);
+  --btcpay-footer-link-accent: var(--btcpay-neutral-800);
+  --btcpay-pre-bg: var(--btcpay-bg-dark);
+  --btcpay-primary-100: #f5f0ff;
+  --btcpay-primary-200: #ede0ff;
+  --btcpay-primary-300: #dcc6ff;
+  --btcpay-primary-400: #c4a0ff;
+  --btcpay-primary-500: #a855f7;
+  --btcpay-primary-600: #9333ea;
+  --btcpay-primary-700: #7e22ce;
+  --btcpay-primary-800: #6b21a8;
+  --btcpay-primary-900: #581c87;
+  --btcpay-primary-rgb: 168, 85, 247;
+  --btcpay-primary-accent: rgb(var(--btcpay-primary-accent-rgb));
+  --btcpay-primary-accent-rgb: 147, 51, 234;
+  --btcpay-primary-shadow: rgba(168, 85, 247, 0.5);
+  --btcpay-secondary: transparent;
+  --btcpay-secondary-text-active: var(--btcpay-primary);
+  --btcpay-secondary-rgb: 5, 5, 8;
+  --btcpay-warning-text: var(--btcpay-neutral-100);
+  --btcpay-warning-text-hover: var(--btcpay-neutral-100);
+  --btcpay-warning-text-active: var(--btcpay-neutral-100);
+  --btcpay-warning-dim-text: var(--btcpay-neutral-200);
+  --btcpay-light-dim-bg: var(--btcpay-neutral-50);
+  --btcpay-light-shadow: rgba(168, 85, 247, 0.15);
+  --btcpay-light-rgb: 10, 10, 14;
+  --btcpay-dark-accent: var(--btcpay-neutral-600);
+  --btcpay-dark-dim-bg: var(--btcpay-white);
+  --btcpay-dark-shadow: rgba(211, 212, 213, 0.33);
+  --btcpay-dark-rgb: 201, 209, 217;
+}
